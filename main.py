@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import os
-
+from pydantic import BaseModel
+from typing import List,Any
 import asyncio
 from agents import Agent, Runner,function_tool,set_tracing_disabled,OpenAIChatCompletionsModel
 from openai import AsyncOpenAI
@@ -119,13 +120,18 @@ aitaveldesigneragent =Agent(
 )
 
 
+class Context(BaseModel):
+    information:list[Any]=[]
+    choices:List[Any]=[]
 
 
 
 
+async def main():
+    nput= input("How can I help You plan your trip ?")
+    while True:
+     result=await Runner.run(aitaveldesigneragent,input=nput,context=Context)
+     print(result.final_output)
+     nput=input("What other ?")
 
-async def main(input):
-    result=await Runner.run(aitaveldesigneragent,input=input)
-    print(result.final_output)
-
-asyncio.run(main(input("How can I help You plan your trip ?")))    
+asyncio.run(main())    
