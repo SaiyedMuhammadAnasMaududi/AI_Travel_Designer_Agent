@@ -116,7 +116,8 @@ aitaveldesigneragent =Agent(
     model=OpenAIChatCompletionsModel(
         openai_client=client,
         model=model,),
-        tools=[ai_travel_planner]
+        tools=[ai_travel_planner],
+        handoffs=[bookingagent,ExploreAgents,destinationagent]
 )
 
 
